@@ -19,6 +19,10 @@ public class Constant {
     public static String CACHE_TYPE_REDIS ="redis";
 
     public static String LOG_ERROR = "error";
+    //是否删除的标志-删除
+    public static final String DELETE_FLAG_DEL = "1";
+    //是否删除的标志-正常
+    public static final String DELETE_FLAG_NORMAL = "0";
 
     
 }

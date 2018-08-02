@@ -21,12 +21,68 @@
 	<!-- Main Content -->
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<div class="col-lg-8 col-md-10">
 				<div id="incomeNum"></div>
 				<div class="clearfix">
 					<p id="flagLoaded" style="display: none; text-align: center;">已全部加载</p>
 					<a id="flagLoad" style="display: none;" class="btn btn-secondary float-right" 
 						href="javascript:void(0)" onclick="nextPage()">更早 &rarr;</a>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-2">
+				<div>
+					<!-- 热门标签 -->
+					<div class="card  my-4">
+						<h5 class="card-header"><i class="fa fa-tags" aria-hidden="true"></i> 热门标签</h5>
+						<div class="card-block" style="height:200px;">
+
+						</div>
+					</div>
+
+					<!-- 热门用户 -->
+					<div class="card my-4">
+						<h5 class="card-header"><i class="fa fa-users" aria-hidden="true"></i> 热门用户</h5>
+						<div class="card-block"  style="height:200px;">
+							<div class="row">
+								<div class="col-lg-12">
+								<span th:each="user: ${users}" th:object="${user}">
+				                  <a href="/u/waylau" th:href="'/u/' + *{username}" title="waylau" th:title="*{username}">
+				                    <img src="/images/avatar-defualt.jpg" th:src="*{avatar} == null ? '/images/avatar-defualt.jpg' : *{avatar}" class="blog-avatar-50">
+				                  </a>
+				                </span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 热门文章 -->
+					<div class="card my-4">
+						<h5 class="card-header"><i class="fa fa-fire" aria-hidden="true"></i> 热门文章</h5>
+						<div class="card-block" style="height:200px;">
+							<ul class="list-group" th:each="hotblog , hotblogStat : ${hotest}" th:object="${hotblog}">
+								<a  th:href="'/u/'+*{username} +'/blogs/'+ *{blogId}" class="list-group-item">
+									[[*{title}]]<span class="badge badge-pill" th:classappend="${hotblogStat.index} eq 0 ? 'badge-danger': (${hotblogStat.index} eq 1 ? 'badge-warning':(${hotblogStat.index} eq 2 ? 'badge-info':'badge-default'))">[[*{readSize}]]</span>
+								</a>
+							</ul>
+						</div>
+					</div>
+
+					<!-- 最新发布 -->
+					<div class="card my-4">
+						<h5 class="card-header"><i class="fa fa-line-chart" aria-hidden="true"></i> 最新发布</h5>
+						<div class="card-block" style="height:200px;">
+							<div class="list-group">
+								<ul class="list-group" th:each="newblog : ${newest}" th:object="${newblog}">
+									<a  th:href="'/u/'+*{username} +'/blogs/'+ *{blogId}" class="list-group-item" th:text="*{title}">
+									</a>
+
+								</ul>
+							</div>
+						</div>
+
+
+					</div>
 				</div>
 			</div>
 		</div>

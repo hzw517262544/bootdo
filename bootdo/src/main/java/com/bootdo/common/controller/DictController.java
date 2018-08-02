@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,9 @@ public class DictController extends BaseController {
 		if (Constant.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
+		dict.setCreateDate(new Date());
+		dict.setCreateBy(Integer.valueOf(getUserId()+""));
+		dict.setDelFlag(Constant.DELETE_FLAG_NORMAL);
 		if (dictService.save(dict) > 0) {
 			return R.ok();
 		}
@@ -87,6 +91,8 @@ public class DictController extends BaseController {
 		if (Constant.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
+		dict.setUpdateBy(getUserId());
+		dict.setUpdateDate(new Date());
 		dictService.update(dict);
 		return R.ok();
 	}
