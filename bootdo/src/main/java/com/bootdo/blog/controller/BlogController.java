@@ -41,6 +41,12 @@ public class BlogController {
 	@GetMapping("/open/post/{cid}")
 	String post(@PathVariable("cid") Long cid, Model model) {
 		ContentDO bContentDO = bContentService.get(cid);
+		//点击博客添加一条阅读量
+		if(bContentDO.getReadNum() == null){
+			bContentDO.setReadNum(0);
+		}
+		bContentDO.setReadNum(bContentDO.getReadNum()+1);
+		bContentService.update(bContentDO);
 		model.addAttribute("bContent", bContentDO);
 		model.addAttribute("gtmModified", DateUtils.format(bContentDO.getGtmModified()));
 		return "blog/index/post";

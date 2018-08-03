@@ -51,6 +51,10 @@ public class ContentDO implements Serializable {
 	private Date gtmCreate;
 	//修改时间
 	private Date gtmModified;
+	//阅读量
+	private Integer readNum;
+	//点赞量
+	private Integer voteNum;
 
 	/**
 	 * 设置：
@@ -267,6 +271,22 @@ public class ContentDO implements Serializable {
 	 */
 	public Date getGtmModified() {
 		return gtmModified;
+	}
+
+	public Integer getReadNum() {
+		return readNum;
+	}
+
+	public void setReadNum(Integer readNum) {
+		this.readNum = readNum;
+	}
+
+	public Integer getVoteNum() {
+		return voteNum;
+	}
+
+	public void setVoteNum(Integer voteNum) {
+		this.voteNum = voteNum;
 	}
 
 	@Override

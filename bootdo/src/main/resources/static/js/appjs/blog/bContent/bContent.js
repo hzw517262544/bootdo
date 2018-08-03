@@ -117,6 +117,16 @@ function load() {
 									width :40
 								},
 								{
+									field : 'readNum',
+									title : '阅读数量',
+									width :40
+								},
+								{
+									field : 'voteNum',
+									title : '点赞数量',
+									width :40
+								},
+								{
 									field : 'status',
 									title : '状态',
 									align : 'center',

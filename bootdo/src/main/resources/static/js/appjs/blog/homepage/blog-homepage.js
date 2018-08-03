@@ -82,3 +82,7 @@ function getCatalogs() {
         }
     });
 }
+//预览博客
+function preview(id) {
+    window.open("/blog/open/post/"+id);
+}

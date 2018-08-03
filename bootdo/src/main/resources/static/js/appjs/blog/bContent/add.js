@@ -32,11 +32,13 @@ function save(status) {
 			parent.layer.alert("Connection error");
 		},
 		success : function(r) {
+			debugger;
 			if (r.code == 0) {
 				parent.layer.msg(r.msg);
 				parent.reLoad();
 				$("#cid").val(r.cid);
-
+                var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+                parent.layer.close(index);
 			} else {
 				parent.layer.alert(r.msg)
 			}

@@ -63,6 +63,13 @@ public class BlogHomePageController extends BaseController {
 			catalogDOList = new ArrayList<CatalogDO>();
 		}
 		model.addAttribute("catalogs",catalogDOList);
+		//查询最新的博客，展示前10条
+		Map<String,Object> topNew10 = new HashMap<String,Object>();
+		topNew10.put("limit","8");
+		topNew10.put("offset","0");
+		topNew10.put("created",userDO.getUserId());
+		List<ContentDO> newBlogs = bContentService.list(topNew10);
+		model.addAttribute("newBlogs",newBlogs);
 		return "blog/homepage/blog_homepage";
 	}
 	@GetMapping("/add_catalog")

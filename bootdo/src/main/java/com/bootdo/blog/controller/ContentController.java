@@ -80,10 +80,13 @@ public class ContentController extends BaseController {
 		if(null==bContent.getType()) {
 			bContent.setType("article");
 		}
-		bContent.setGtmCreate(new Date());
-		bContent.setGtmModified(new Date());
 		int count;
+		bContent.setModified(getUserId());
+		bContent.setGtmModified(new Date());
 		if (bContent.getCid() == null || "".equals(bContent.getCid())) {
+			bContent.setCreated(getUserId());
+			bContent.setAuthor(getUser().getName());
+			bContent.setGtmCreate(new Date());
 			count = bContentService.save(bContent);
 		} else {
 			count = bContentService.update(bContent);

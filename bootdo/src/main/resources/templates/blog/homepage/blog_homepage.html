@@ -74,24 +74,52 @@
 
 
         <div class="col-md-8 col-xl-9">
-            <!-- 工具栏 -->
-            <ul class="nav nav-tabs mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link " data-th-classappend="${order} eq 'new' ? 'active' : ''" href="javascript:void(0)" >最新</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-th-classappend="${order} eq 'hot' ? 'active' : ''" href="javascript:void(0)" >最热</a>
-                </li>
-                <form class="form-inline mt-2 mt-md-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="搜索" id="keyword" >
-                    <a href="javascript:void(0)" class="btn btn-outline-secondary my-2 my-sm-0" id="searchBlogs"><i class="fa fa-search"
-                </form>
-            </ul>
-            <!-- Blog Post -->
-            <div id="mainContainer">
-                <div id="mainContainerRepleace">
-
-	            </div>
+            <div class="ibox">
+                <div class="ibox-body">
+                    <!-- 工具栏 -->
+                    <ul class="nav nav-tabs">
+                        <li class="active" >
+                            <a data-toggle="tab" href="#tab-new"><i class="fa fa-file-text"></i>最新</a>
+                        </li>
+                        <li class="" >
+                            <a data-toggle="tab" href="#tab-hot"><i class="fa fa-briefcase"></i>最热</a>
+                        </li>
+                        <form class="form-inline mt-2 mt-md-0">
+                            <input class="form-control mr-sm-2" type="text" placeholder="搜索" id="keyword" >
+                            <a href="javascript:void(0)" class="btn btn-outline-secondary my-2 my-sm-0" id="searchBlogs"><i class="fa fa-search"
+                        </form>
+                    </ul>
+                    <!-- Blog Post -->
+                    <div class="tab-content">
+                        <div id="tab-new" class="tab-pane active">
+                                <div class="card mb-4" th:each="newBlog : ${newBlogs}">
+                                    <div class="card-block">
+                                        <h2 class="card-title">
+                                            <span>
+                                              <a  href="#">
+                                                <img th:src="${picUrl}"  style="border-radius: 50%;height: 50px;width: 50px;">
+                                              </a>
+                                            </span>
+                                            <a  class="card-link"
+                                               href="#" th:text="${newBlog.title}" th:onclick="'preview('+${newBlog.cid}+')'">
+                                            </a>
+                                        </h2>
+                                        <a class="card-text" href="#" class="card-link" th:text=${newBlog.author}>
+                                            waylau
+                                        </a>
+                                        发表于:<a th:text="${#dates.format(newBlog.gtmCreate, 'yyyy-MM-dd HH:mm:ss')}"></a>
+                                        <div class="card-text">
+                                            <i class="fa fa-eye" aria-hidden="true" th:text="${newBlog.readNum}"></i>
+                                            <i class="fa fa-heart-o" aria-hidden="true" th:text="${newBlog.voteNum}"></i>
+                                            <i class="fa fa-comment-o" aria-hidden="true" th:text="${newBlog.commentsNum}"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div id="tab-hot" class="tab-pane ">
+                            <p>这是最热的博客</p>
+                        </div>
+                </div>
             </div>
 
         </div>

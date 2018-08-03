@@ -23,6 +23,7 @@ function save() {
 			parent.layer.alert("Connection error");
 		},
 		success : function(data) {
+			debugger;
 			if (data.code == 0) {
 				parent.layer.msg("操作成功");
 				parent.reLoad();
