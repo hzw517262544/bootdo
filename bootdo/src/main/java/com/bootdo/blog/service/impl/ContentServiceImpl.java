@@ -51,5 +51,14 @@ public class ContentServiceImpl implements ContentService {
 	public int batchRemove(Long[] cids){
 		return bContentMapper.batchRemove(cids);
 	}
-	
+
+    /**
+     * 查询最热的博客按照点击量排序
+     * @param map
+     * @return
+     */
+    @Override
+    public List<ContentDO> listHotTop(Map<String, Object> map) {
+        return bContentMapper.listHotTop(map);
+    }
 }

@@ -117,7 +117,29 @@
                                 </div>
                         </div>
                         <div id="tab-hot" class="tab-pane ">
-                            <p>这是最热的博客</p>
+                            <div class="card mb-4" th:each="hotBlog : ${hotBlogs}">
+                                <div class="card-block">
+                                    <h2 class="card-title">
+                                            <span>
+                                              <a  href="#">
+                                                <img th:src="${picUrl}"  style="border-radius: 50%;height: 50px;width: 50px;">
+                                              </a>
+                                            </span>
+                                        <a  class="card-link"
+                                            href="#" th:text="${hotBlog.title}" th:onclick="'preview('+${hotBlog.cid}+')'">
+                                        </a>
+                                    </h2>
+                                    <a class="card-text" href="#" class="card-link" th:text=${hotBlog.author}>
+                                        waylau
+                                    </a>
+                                    发表于:<a th:text="${#dates.format(hotBlog.gtmCreate, 'yyyy-MM-dd HH:mm:ss')}"></a>
+                                    <div class="card-text">
+                                        <i class="fa fa-eye" aria-hidden="true" th:text="${hotBlog.readNum}"></i>
+                                        <i class="fa fa-heart-o" aria-hidden="true" th:text="${hotBlog.voteNum}"></i>
+                                        <i class="fa fa-comment-o" aria-hidden="true" th:text="${hotBlog.commentsNum}"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                 </div>
             </div>

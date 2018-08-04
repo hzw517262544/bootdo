@@ -1,7 +1,10 @@
 package com.bootdo.blog.controller;
 
 import com.bootdo.blog.domain.ContentDO;
+import com.bootdo.blog.domain.VoteDO;
 import com.bootdo.blog.service.ContentService;
+import com.bootdo.blog.service.VoteService;
+import com.bootdo.common.controller.BaseController;
 import com.bootdo.common.utils.DateUtils;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
@@ -19,10 +22,11 @@ import java.util.Map;
  */
 @RequestMapping("/blog")
 @Controller
-public class BlogController {
+public class BlogController extends BaseController {
 	@Autowired
     ContentService bContentService;
-
+    @Autowired
+    VoteService voteService;
 	@GetMapping()
 	String blog() {
 		return "blog/index/main";
@@ -49,6 +53,16 @@ public class BlogController {
 		bContentService.update(bContentDO);
 		model.addAttribute("bContent", bContentDO);
 		model.addAttribute("gtmModified", DateUtils.format(bContentDO.getGtmModified()));
+		//查询当前用户的点赞信息
+        Map<String,Object> voteMap = new HashMap<String,Object>();
+        voteMap.put("blogId",cid);
+        voteMap.put("userId",getUserId());
+        List<VoteDO> voteDOS = voteService.list(voteMap);
+        boolean ifVote = false;
+        if(voteDOS !=null&&!voteDOS.isEmpty()){
+            ifVote = true;
+        }
+        model.addAttribute("ifVote",ifVote);
 		return "blog/index/post";
 	}
 	@GetMapping("/open/page/{categories}")

@@ -63,13 +63,20 @@ public class BlogHomePageController extends BaseController {
 			catalogDOList = new ArrayList<CatalogDO>();
 		}
 		model.addAttribute("catalogs",catalogDOList);
-		//查询最新的博客，展示前10条
-		Map<String,Object> topNew10 = new HashMap<String,Object>();
-		topNew10.put("limit","8");
-		topNew10.put("offset","0");
-		topNew10.put("created",userDO.getUserId());
-		List<ContentDO> newBlogs = bContentService.list(topNew10);
+		//查询最新的博客，展示前8条
+		Map<String,Object> topNew = new HashMap<String,Object>();
+		topNew.put("limit","8");
+		topNew.put("offset","0");
+		topNew.put("created",userDO.getUserId());
+		List<ContentDO> newBlogs = bContentService.list(topNew);
 		model.addAttribute("newBlogs",newBlogs);
+		//查询最热的博客，按照阅读量排序
+		Map<String,Object> topHot = new HashMap<String,Object>();
+		topHot.put("limit","8");
+		topHot.put("offset","0");
+		topHot.put("created",userDO.getUserId());
+		List<ContentDO> hotBlogs = bContentService.listHotTop(topHot);
+		model.addAttribute("hotBlogs",hotBlogs);
 		return "blog/homepage/blog_homepage";
 	}
 	@GetMapping("/add_catalog")

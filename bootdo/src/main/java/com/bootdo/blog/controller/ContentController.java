@@ -1,7 +1,9 @@
 package com.bootdo.blog.controller;
 
 import com.bootdo.blog.domain.ContentDO;
+import com.bootdo.blog.domain.VoteDO;
 import com.bootdo.blog.service.ContentService;
+import com.bootdo.blog.service.VoteService;
 import com.bootdo.common.config.Constant;
 import com.bootdo.common.controller.BaseController;
 import com.bootdo.common.utils.PageUtils;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +32,8 @@ import java.util.Map;
 public class ContentController extends BaseController {
 	@Autowired
     ContentService bContentService;
+	@Autowired
+	VoteService voteService;
 
 	@GetMapping()
 	@RequiresPermissions("blog:bContent:bContent")
@@ -139,6 +144,59 @@ public class ContentController extends BaseController {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
 		bContentService.batchRemove(cids);
+		return R.ok();
+	}
+
+	/**
+	 *取消点赞
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/cancelVote")
+	public R cancelVote(Long cid){
+		ContentDO contentDO = bContentService.get(cid);
+		if(contentDO.getVoteNum() == null|| contentDO.getVoteNum() == 0){
+			return R.ok();
+		}else {
+			contentDO.setVoteNum(contentDO.getVoteNum()-1);
+			//更新博客表的点赞数量
+			bContentService.update(contentDO);
+			//删除当前用的点赞信息
+			Map<String,Object> voteMap = new HashMap<String,Object>();
+			voteMap.put("blogId",cid);
+			voteMap.put("userId",getUserId());
+			List<VoteDO> voteDOS = voteService.list(voteMap);
+			if(voteDOS != null&&!voteDOS.isEmpty()){
+				Integer [] voteIds = new Integer[voteDOS.size()];
+				for(int i=0;i<voteDOS.size();i++){
+					voteIds[i] = voteDOS.get(i).getId();
+				}
+				voteService.batchRemove(voteIds);
+			}
+		}
+		return R.ok();
+	}
+
+	/**
+	 * 点赞
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/submitVote")
+	public R submitVote(Long cid){
+		ContentDO contentDO = bContentService.get(cid);
+		if(contentDO.getVoteNum() == null){
+			contentDO.setVoteNum(0);
+		}
+		contentDO.setVoteNum(contentDO.getVoteNum()+1);
+		bContentService.update(contentDO);
+		//点赞表添加一条记录
+		VoteDO voteDO = new VoteDO();
+		voteDO.setBlogId(Integer.valueOf(cid.toString()));
+		voteDO.setUserId(Integer.valueOf(getUserId().toString()));
+		voteDO.setUserName(getUsername());
+		voteDO.setCreateTime(new Date());
+		voteService.save(voteDO);
 		return R.ok();
 	}
 }

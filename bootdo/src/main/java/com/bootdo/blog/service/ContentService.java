@@ -27,4 +27,6 @@ public interface ContentService {
 	int remove(Long cid);
 	
 	int batchRemove(Long[] cids);
+
+    List<ContentDO> listHotTop(Map<String, Object> map);
 }
