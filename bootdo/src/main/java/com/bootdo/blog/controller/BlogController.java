@@ -61,7 +61,6 @@ public class BlogController extends BaseController {
 		bContentDO.setReadNum(bContentDO.getReadNum()+1);
 		bContentService.update(bContentDO);
 		model.addAttribute("bContent", bContentDO);
-		model.addAttribute("gtmModified", bContentDO.getGtmModified());
 		//查询当前用户的点赞信息
         Map<String,Object> voteMap = new HashMap<String,Object>();
         voteMap.put("blogId",cid);
@@ -94,6 +93,26 @@ public class BlogController extends BaseController {
 			 bContentDO = bContentService.list(map).get(0);
 		}
 		model.addAttribute("bContent", bContentDO);
+		//查询当前用户的点赞信息
+		Map<String,Object> voteMap = new HashMap<String,Object>();
+		voteMap.put("blogId",bContentDO.getCid());
+		//非游客登录时加载点赞信息
+		boolean ifVote = false;
+		if(!Constant.TEMPORARY_VISITOR_ID.equals(getUserId().toString())){
+			voteMap.put("userId",getUserId());
+			List<VoteDO> voteDOS = voteService.list(voteMap);
+
+			if(voteDOS !=null&&!voteDOS.isEmpty()){
+				ifVote = true;
+			}
+		}
+		model.addAttribute("ifVote",ifVote);
+		//加载评论
+		Map<String,Object> commentMap = new HashMap<String,Object>();
+		commentMap.put("blogId",bContentDO.getCid());
+		List<CommentDO> commentDOS = commentService.list(commentMap);
+		model.addAttribute("comments",commentDOS);
+
 		return "blog/index/post";
 	}
 	/**
@@ -139,13 +158,15 @@ public class BlogController extends BaseController {
 		}
 		contentDO.setVoteNum(contentDO.getVoteNum()+1);
 		bContentService.update(contentDO);
-		//点赞表添加一条记录
+		//点赞表添加一条记录,游客点赞不添加点赞记录
 		VoteDO voteDO = new VoteDO();
 		voteDO.setBlogId(Integer.valueOf(cid.toString()));
 		voteDO.setUserId(Integer.valueOf(getUserId().toString()));
 		voteDO.setUserName(getUser().getName());
 		voteDO.setCreateTime(new Date());
-		voteService.save(voteDO);
+		if(!Constant.TEMPORARY_VISITOR_ID.equals(voteDO.getUserId().toString())){
+			voteService.save(voteDO);
+		}
 		return R.ok();
 	}
 

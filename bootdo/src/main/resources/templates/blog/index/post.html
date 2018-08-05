@@ -16,7 +16,7 @@
 						<h1 th:text="${bContent.title}"></h1>
 						<span class="meta">作者 <a href="#"
 							th:text="${bContent.author}"></a>&nbsp;&nbsp;<a href="#"
-							th:text="${#dates.format(gtmModified,'yyyy-MM-dd HH:mm:ss')}"></a>
+							th:text="${#dates.format(bContent.gtmModified,'yyyy-MM-dd HH:mm:ss')}"></a>
 							<a id="blogId" th:text="${bContent.cid}" hidden="hidden"></a>
 						</span>
 					</div>
