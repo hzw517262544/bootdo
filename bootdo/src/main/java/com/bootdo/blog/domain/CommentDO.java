@@ -28,6 +28,11 @@ public class CommentDO implements Serializable {
 	//
 	private Date createTime;
 
+	//用户头像url
+	private String picUrl;
+
+	private String rownum;
+
 	/**
 	 * 设置：
 	 */
@@ -99,5 +104,21 @@ public class CommentDO implements Serializable {
 	 */
 	public Date getCreateTime() {
 		return createTime;
+	}
+
+	public String getPicUrl() {
+		return picUrl;
+	}
+
+	public void setPicUrl(String picUrl) {
+		this.picUrl = picUrl;
+	}
+
+	public String getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(String rownum) {
+		this.rownum = rownum;
 	}
 }

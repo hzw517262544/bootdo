@@ -1,18 +1,23 @@
 package com.bootdo.blog.controller;
 
+import com.bootdo.blog.domain.CommentDO;
 import com.bootdo.blog.domain.ContentDO;
 import com.bootdo.blog.domain.VoteDO;
+import com.bootdo.blog.service.CommentService;
 import com.bootdo.blog.service.ContentService;
 import com.bootdo.blog.service.VoteService;
+import com.bootdo.common.config.Constant;
 import com.bootdo.common.controller.BaseController;
-import com.bootdo.common.utils.DateUtils;
-import com.bootdo.common.utils.PageUtils;
-import com.bootdo.common.utils.Query;
+import com.bootdo.common.service.FileService;
+import com.bootdo.common.utils.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jws.WebParam;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +32,10 @@ public class BlogController extends BaseController {
     ContentService bContentService;
     @Autowired
     VoteService voteService;
+	@Autowired
+	private CommentService commentService;
+	@Autowired
+	private FileService fileService;
 	@GetMapping()
 	String blog() {
 		return "blog/index/main";
@@ -52,17 +61,28 @@ public class BlogController extends BaseController {
 		bContentDO.setReadNum(bContentDO.getReadNum()+1);
 		bContentService.update(bContentDO);
 		model.addAttribute("bContent", bContentDO);
-		model.addAttribute("gtmModified", DateUtils.format(bContentDO.getGtmModified()));
+		model.addAttribute("gtmModified", bContentDO.getGtmModified());
 		//查询当前用户的点赞信息
         Map<String,Object> voteMap = new HashMap<String,Object>();
         voteMap.put("blogId",cid);
-        voteMap.put("userId",getUserId());
-        List<VoteDO> voteDOS = voteService.list(voteMap);
-        boolean ifVote = false;
-        if(voteDOS !=null&&!voteDOS.isEmpty()){
-            ifVote = true;
-        }
+        //非游客登录时加载点赞信息
+		boolean ifVote = false;
+        if(!Constant.TEMPORARY_VISITOR_ID.equals(getUserId().toString())){
+			voteMap.put("userId",getUserId());
+			List<VoteDO> voteDOS = voteService.list(voteMap);
+
+			if(voteDOS !=null&&!voteDOS.isEmpty()){
+				ifVote = true;
+			}
+		}
         model.addAttribute("ifVote",ifVote);
+        //加载评论
+		Map<String,Object> commentMap = new HashMap<String,Object>();
+		commentMap.put("blogId",cid);
+		List<CommentDO> commentDOS = commentService.list(commentMap);
+		model.addAttribute("comments",commentDOS);
+		//用户信息
+
 		return "blog/index/post";
 	}
 	@GetMapping("/open/page/{categories}")
@@ -75,5 +95,88 @@ public class BlogController extends BaseController {
 		}
 		model.addAttribute("bContent", bContentDO);
 		return "blog/index/post";
+	}
+	/**
+	 *取消点赞
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/open/cancelVote")
+	public R cancelVote(Long cid){
+		ContentDO contentDO = bContentService.get(cid);
+		if(contentDO.getVoteNum() == null|| contentDO.getVoteNum() == 0){
+			return R.ok();
+		}else {
+			contentDO.setVoteNum(contentDO.getVoteNum()-1);
+			//更新博客表的点赞数量
+			bContentService.update(contentDO);
+			//删除当前用的点赞信息
+			Map<String,Object> voteMap = new HashMap<String,Object>();
+			voteMap.put("blogId",cid);
+			voteMap.put("userId",getUserId());
+			List<VoteDO> voteDOS = voteService.list(voteMap);
+			if(voteDOS != null&&!voteDOS.isEmpty()){
+				Integer [] voteIds = new Integer[voteDOS.size()];
+				for(int i=0;i<voteDOS.size();i++){
+					voteIds[i] = voteDOS.get(i).getId();
+				}
+				voteService.batchRemove(voteIds);
+			}
+		}
+		return R.ok();
+	}
+
+	/**
+	 * 点赞
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/open/submitVote")
+	public R submitVote(Long cid){
+		ContentDO contentDO = bContentService.get(cid);
+		if(contentDO.getVoteNum() == null){
+			contentDO.setVoteNum(0);
+		}
+		contentDO.setVoteNum(contentDO.getVoteNum()+1);
+		bContentService.update(contentDO);
+		//点赞表添加一条记录
+		VoteDO voteDO = new VoteDO();
+		voteDO.setBlogId(Integer.valueOf(cid.toString()));
+		voteDO.setUserId(Integer.valueOf(getUserId().toString()));
+		voteDO.setUserName(getUser().getName());
+		voteDO.setCreateTime(new Date());
+		voteService.save(voteDO);
+		return R.ok();
+	}
+
+	/**
+	 * 保存--评论
+	 */
+	@ResponseBody
+	@PostMapping("/open/saveComment")
+	public CommentDO saveComment(CommentDO comment){
+		comment.setCreateUserId(Integer.valueOf(getUserId().toString()));
+		comment.setCreateUserName(getUser().getName());
+		comment.setCreateTime(new Date());
+		if(commentService.save(comment)>0){
+			//评论成功则更新该博客的评论数量
+			ContentDO contentDO = bContentService.get(Long.valueOf(comment.getBlogId()));
+			if(contentDO.getCommentsNum() == null){
+				contentDO.setCommentsNum(0);
+			}
+			contentDO.setCommentsNum(contentDO.getCommentsNum()+1);
+			bContentService.update(contentDO);
+		}
+		if(getUser().getPicId()==null){
+            comment.setPicUrl(Constant.TEMPORARY_VISITOR_PICURL);
+        }else {
+			comment.setPicUrl(fileService.get(getUser().getPicId()).getUrl());
+		}
+		//查询已有评论数量
+		Map<String,Object> commentMap = new HashMap<String,Object>();
+		commentMap.put("blogId",comment.getBlogId());
+		int commentCount = commentService.count(commentMap);
+		comment.setRownum(commentCount+"");
+		return comment;
 	}
 }

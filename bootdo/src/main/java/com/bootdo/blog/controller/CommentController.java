@@ -79,7 +79,7 @@ public class CommentController extends BaseController {
 	@PostMapping("/save")
 	public R save( CommentDO comment){
 		comment.setCreateUserId(Integer.valueOf(getUserId().toString()));
-		comment.setCreateUserName(getUsername());
+		comment.setCreateUserName(getUser().getName());
 		comment.setCreateTime(new Date());
 		if(commentService.save(comment)>0){
 			//评论成功则更新该博客的评论数量

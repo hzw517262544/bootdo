@@ -24,5 +24,10 @@ public class Constant {
     //是否删除的标志-正常
     public static final String DELETE_FLAG_NORMAL = "0";
 
+    public static final String TEMPORARY_VISITOR_NAME = "游客";
+
+    public static final String TEMPORARY_VISITOR_ID = "0";
+    //游客默认头像
+    public static final String TEMPORARY_VISITOR_PICURL = "/img/blog/post-sample-image.jpg";
     
 }

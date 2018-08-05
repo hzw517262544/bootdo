@@ -16,8 +16,8 @@
 						<h1 th:text="${bContent.title}"></h1>
 						<span class="meta">作者 <a href="#"
 							th:text="${bContent.author}"></a>&nbsp;&nbsp;<a href="#"
-							th:text="${gtmModified}"></a>
-							<a id="blogId" th:text="${bContent.cid}"></a>
+							th:text="${#dates.format(gtmModified,'yyyy-MM-dd HH:mm:ss')}"></a>
+							<a id="blogId" th:text="${bContent.cid}" hidden="hidden"></a>
 						</span>
 					</div>
 				</div>
@@ -49,6 +49,27 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="card-block" id="mainContainer">
+					<div class="row" id="mainContainerRepleace" th:each="comment,commentStat : ${comments}">
+						<h2 class="card-title col-lg-1 col-md-2">
+							<span>
+			                  <a href="/u/waylau" th:href="'/u/'+ *{comment.createUserName}" title="waylau" th:title="*{comment.createUserName}">
+			                    <img src="/images/avatar-defualt.jpg" th:src="${comment.picUrl}!=null?${comment.picUrl}:@{/img/blog/post-sample-image.jpg}"  style="border-radius: 50%;height: 50px;width: 50px;">
+			                  </a>
+					        </span>
+						</h2>
+						<div class="card-text col-lg-11 col-md-10">
+							<a th:text="${comment.rownum}"></a>楼
+							<a href="/u/waylau" th:href="'/u/'+ *{comment.createUserName}" class="card-link" th:text="*{comment.createUserName}">waylau</a>
+							<a th:text="${#dates.format(comment.createTime, 'yyyy-MM-dd HH:mm:ss')}"></a>
+							<!--<a href="javascript:void(0)" class="blog-delete-comment" th:if="${commentOwner} eq *{comment.createUserName}" th:attr="commentId=*{id}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>-->
+							<p th:text="*{comment.comment}">不错哦，顶起！</p>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 	</article>
@@ -72,5 +93,6 @@
         });
 	</script>
 	<script type="text/javascript" src="/js/appjs/blog/index/post.js"></script>
+	<div id="newComment"></div>
 </body>
 </html>
