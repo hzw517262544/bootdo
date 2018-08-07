@@ -3,7 +3,9 @@ package com.bootdo.oa.controller;
 import com.bootdo.common.config.Constant;
 import com.bootdo.common.controller.BaseController;
 import com.bootdo.common.domain.DictDO;
+import com.bootdo.common.domain.FileDO;
 import com.bootdo.common.service.DictService;
+import com.bootdo.common.service.FileService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
@@ -40,6 +42,8 @@ public class NotifyController extends BaseController {
 	private NotifyRecordService notifyRecordService;
 	@Autowired
 	private DictService dictService;
+	@Autowired
+	private FileService fileService;
 
 	@GetMapping()
 	@RequiresPermissions("oa:notify:notify")
@@ -91,7 +95,18 @@ public class NotifyController extends BaseController {
 		if (Constant.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
+		Date currDate = new Date();
 		notify.setCreateBy(getUserId());
+		notify.setCreateDate(currDate);
+		notify.setUpdateBy(getUserId().toString());
+		notify.setUpdateDate(currDate);
+		//根据文件的url查询到文件的id
+		Map<String,Object> params = new HashMap<String,Object>(16);
+		params.put("url",notify.getFileUrl());
+		List<FileDO>  fileDOS = fileService.list(params);
+		if(fileDOS!=null && !fileDOS.isEmpty()){
+			notify.setFiles(fileDOS.get(0).getId().toString());
+		}
 		if (notifyService.save(notify) > 0) {
 			return R.ok();
 		}
@@ -108,6 +123,8 @@ public class NotifyController extends BaseController {
 		if (Constant.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
+		notify.setUpdateBy(getUserId().toString());
+		notify.setUpdateDate(new Date());
 		notifyService.update(notify);
 		return R.ok();
 	}

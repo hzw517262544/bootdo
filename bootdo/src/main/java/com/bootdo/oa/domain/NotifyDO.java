@@ -42,6 +42,8 @@ public class NotifyDO implements Serializable {
 	private String delFlag;
 	
 	private Long[] userIds;
+	//文件的url
+	private String fileUrl;
 
 	/**
 	 * 设置：编号
@@ -192,6 +194,14 @@ public class NotifyDO implements Serializable {
 	}
 	public void setUserIds(Long[] userIds) {
 		this.userIds = userIds;
+	}
+
+	public String getFileUrl() {
+		return fileUrl;
+	}
+
+	public void setFileUrl(String fileUrl) {
+		this.fileUrl = fileUrl;
 	}
 
 	@Override

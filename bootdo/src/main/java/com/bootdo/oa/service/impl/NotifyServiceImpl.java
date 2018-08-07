@@ -64,7 +64,6 @@ public class NotifyServiceImpl implements NotifyService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int save(NotifyDO notify) {
-        notify.setUpdateDate(new Date());
         int r = notifyDao.save(notify);
         // 保存到接受者列表中
         Long[] userIds = notify.getUserIds();
