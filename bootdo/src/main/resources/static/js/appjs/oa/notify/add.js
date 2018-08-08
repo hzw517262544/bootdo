@@ -1,4 +1,13 @@
 $().ready(function() {
+    $('.summernote').summernote({
+        height : '300px',
+        lang : 'zh-CN',
+        callbacks: {
+            onImageUpload: function(files, editor, $editable) {
+                sendFile(files);
+            }
+        }
+    });
 	loadType();
 	validateRule();
 	//选择文件触发事件
@@ -13,6 +22,8 @@ $.validator.setDefaults({
 	}
 });
 function save() {
+    var content_sn = $("#content_sn").summernote('code');
+    $("#content").val(content_sn);
 	$.ajax({
 		cache : true,
 		type : "POST",

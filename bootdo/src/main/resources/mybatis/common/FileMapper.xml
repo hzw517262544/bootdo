@@ -43,13 +43,15 @@
 		(
 			`type`, 
 			`url`, 
-			`create_date`
+			`create_date`,
+			`name`
 		)
 		values
 		(
 			#{type}, 
 			#{url}, 
-			#{createDate}
+			#{createDate},
+			#{name}
 		)
 	</insert>
 	 

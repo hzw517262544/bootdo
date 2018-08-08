@@ -21,6 +21,8 @@ public class FileDO implements Serializable {
     private String url;
     // 创建时间
     private Date createDate;
+    //文件名称
+    private String name;
 
 
     public FileDO() {
@@ -90,6 +92,14 @@ public class FileDO implements Serializable {
      */
     public Date getCreateDate() {
         return createDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

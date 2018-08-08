@@ -62,7 +62,7 @@ function load() {
 						width: '20%',
 						title : '标题',
 						formatter:function (value,row,index) {
-                            return '<a href="#" onclick="read(\''+ row.id+ '\')">'+row.title+'</a>';
+                            return '<a href="#" onclick="detail(\''+ row.id+ '\')">'+row.title+'</a>';
                         }
 					},
 					{
@@ -213,4 +213,16 @@ function batchRemove() {
 			}
 		});
 	}, function() {});
+}
+
+function detail(id) {
+    var detailWin = layer.open({
+        type : 2,
+        title : '通知详情',
+        maxmin : true,
+        shadeClose : false, // 点击遮罩关闭层
+        area : [ '800px', '520px' ],
+        content : prefix + '/detail/' + id // iframe的url
+    });
+    layer.full(detailWin);
 }

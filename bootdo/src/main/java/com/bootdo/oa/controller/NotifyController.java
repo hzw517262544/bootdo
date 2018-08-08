@@ -200,6 +200,20 @@ public class NotifyController extends BaseController {
 		return "oa/notify/read";
 	}
 
+	@GetMapping("/detail/{id}")
+//	@RequiresPermissions("oa:notify:edit")
+	String detail(@PathVariable("id") Long id, Model model) {
+		NotifyDO notify = notifyService.get(id);
+		//更改阅读状态
+		NotifyRecordDO notifyRecordDO = new NotifyRecordDO();
+		notifyRecordDO.setNotifyId(id);
+		notifyRecordDO.setUserId(getUserId());
+		notifyRecordDO.setReadDate(new Date());
+		notifyRecordDO.setIsRead(Constant.OA_NOTIFY_READ_YES);
+		notifyRecordService.changeRead(notifyRecordDO);
+		model.addAttribute("notify", notify);
+		return "oa/notify/detail";
+	}
 
 
 }
