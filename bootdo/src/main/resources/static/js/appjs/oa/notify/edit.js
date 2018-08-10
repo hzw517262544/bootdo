@@ -1,4 +1,15 @@
 $().ready(function() {
+    $('.summernote').summernote({
+        height : '300px',
+        lang : 'zh-CN',
+        callbacks: {
+            onImageUpload: function(files, editor, $editable) {
+                sendFile(files);
+            }
+        }
+    });
+    var content = $("#content").val();
+    $('#content_sn').summernote('code', content);
 	//loadType();
 	validateRule();
 });
@@ -72,3 +83,17 @@ function loadType(){
 	});
 }
 
+var openUser = function(){
+    var selectUsers = layer.open({
+        type:2,
+        title:"选择人员",
+        area : [ '300px', '450px' ],
+        content:"/sys/user/treeView"
+    });
+    layer.full(selectUsers);
+}
+
+function loadUser(userIds,userNames){
+    $("#userIds").val(userIds);
+    $("#userNames").val(userNames);
+}

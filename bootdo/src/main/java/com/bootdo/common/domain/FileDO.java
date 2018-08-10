@@ -23,7 +23,10 @@ public class FileDO implements Serializable {
     private Date createDate;
     //文件名称
     private String name;
-
+    //关联id
+    private Long sourceId;
+    //附件类型：1-通知，2-博客
+    private Integer sourceType;
 
     public FileDO() {
         super();
@@ -100,6 +103,22 @@ public class FileDO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(Long sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public Integer getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(Integer sourceType) {
+        this.sourceType = sourceType;
     }
 
     @Override

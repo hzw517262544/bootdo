@@ -154,7 +154,10 @@ public class FileController extends BaseController {
 		}
 
 		if (sysFileService.save(sysFile) > 0) {
-			return R.ok().put("fileName",sysFile.getUrl());
+			R okR = R.ok();
+			okR.put("fileId",sysFile.getId());
+			okR.put("fileName",sysFile.getUrl());
+			return okR;
 		}
 		return R.error();
 	}

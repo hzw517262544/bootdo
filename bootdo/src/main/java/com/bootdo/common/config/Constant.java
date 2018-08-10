@@ -29,5 +29,9 @@ public class Constant {
     public static final String TEMPORARY_VISITOR_ID = "0";
     //游客默认头像
     public static final String TEMPORARY_VISITOR_PICURL = "/img/blog/post-sample-image.jpg";
+    //附件类型：1-通知
+    public static final int SOURCE_TYPE_NOTIFY = 1;
+    //附件类型：2-博客
+    public static final int SOURCE_TYPE_BLOG = 2;
     
 }

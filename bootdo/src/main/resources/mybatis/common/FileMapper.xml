@@ -14,6 +14,8 @@
 		  		  <if test="type != null and type != ''"> and type = #{type} </if>
 		  		  <if test="url != null and url != ''"> and url = #{url} </if>
 		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+				  <if test="sourceId != null and sourceId != ''"> and source_id = #{sourceId} </if>
+				  <if test="sourceType != null and sourceType != ''"> and source_type = #{sourceType} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -44,14 +46,18 @@
 			`type`, 
 			`url`, 
 			`create_date`,
-			`name`
+			`name`,
+			`source_id`,
+			`source_type`
 		)
 		values
 		(
 			#{type}, 
 			#{url}, 
 			#{createDate},
-			#{name}
+			#{name},
+			#{sourceId},
+			#{sourceType}
 		)
 	</insert>
 	 
@@ -60,7 +66,9 @@
 		<set>
 			<if test="type != null">`type` = #{type}, </if>
 			<if test="url != null">`url` = #{url}, </if>
-			<if test="createDate != null">`create_date` = #{createDate}</if>
+			<if test="createDate != null">`create_date` = #{createDate},</if>
+			<if test="sourceId != null">`source_id` = #{sourceId},</if>
+			<if test="sourceType != null">`source_type` = #{sourceType}</if>
 		</set>
 		where id = #{id}
 	</update>

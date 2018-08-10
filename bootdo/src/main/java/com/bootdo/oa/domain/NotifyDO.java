@@ -43,7 +43,7 @@ public class NotifyDO implements Serializable {
 	
 	private Long[] userIds;
 	//文件的url
-	private String fileUrl;
+	private String fileIds;
 
 	/**
 	 * 设置：编号
@@ -196,12 +196,12 @@ public class NotifyDO implements Serializable {
 		this.userIds = userIds;
 	}
 
-	public String getFileUrl() {
-		return fileUrl;
+	public String getFileIds() {
+		return fileIds;
 	}
 
-	public void setFileUrl(String fileUrl) {
-		this.fileUrl = fileUrl;
+	public void setFileIds(String fileIds) {
+		this.fileIds = fileIds;
 	}
 
 	@Override

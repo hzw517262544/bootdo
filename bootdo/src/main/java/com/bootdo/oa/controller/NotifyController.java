@@ -3,9 +3,7 @@ package com.bootdo.oa.controller;
 import com.bootdo.common.config.Constant;
 import com.bootdo.common.controller.BaseController;
 import com.bootdo.common.domain.DictDO;
-import com.bootdo.common.domain.FileDO;
 import com.bootdo.common.service.DictService;
-import com.bootdo.common.service.FileService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,8 +39,6 @@ public class NotifyController extends BaseController {
 	private NotifyRecordService notifyRecordService;
 	@Autowired
 	private DictService dictService;
-	@Autowired
-	private FileService fileService;
 
 	@GetMapping()
 	@RequiresPermissions("oa:notify:notify")
@@ -80,6 +75,18 @@ public class NotifyController extends BaseController {
 				dictDO.setRemarks("checked");
 			}
 		}
+		//加载发送人信息
+		Map<String,Object> recordMap = new HashMap<String,Object>(16);
+		recordMap.put("notifyId",id);
+		List<NotifyRecordDO> recordDOS = notifyRecordService.list(recordMap);
+		if(recordDOS != null && !recordDOS.isEmpty()){
+			int size = recordDOS.size();
+			Long [] userIds = new Long[size];
+			for(int i=0;i<size;i++){
+				userIds[i] = recordDOS.get(i).getUserId();
+			}
+			notify.setUserIds(userIds);
+		}
 		model.addAttribute("oaNotifyTypes",dictDOS);
 		model.addAttribute("notify", notify);
 		return "oa/notify/edit";
@@ -100,16 +107,10 @@ public class NotifyController extends BaseController {
 		notify.setCreateDate(currDate);
 		notify.setUpdateBy(getUserId().toString());
 		notify.setUpdateDate(currDate);
-		//根据文件的url查询到文件的id
-		Map<String,Object> params = new HashMap<String,Object>(16);
-		params.put("url",notify.getFileUrl());
-		List<FileDO>  fileDOS = fileService.list(params);
-		if(fileDOS!=null && !fileDOS.isEmpty()){
-			notify.setFiles(fileDOS.get(0).getId().toString());
-		}
 		if (notifyService.save(notify) > 0) {
 			return R.ok();
 		}
+
 		return R.error();
 	}
 
@@ -212,6 +213,9 @@ public class NotifyController extends BaseController {
 		notifyRecordDO.setIsRead(Constant.OA_NOTIFY_READ_YES);
 		notifyRecordService.changeRead(notifyRecordDO);
 		model.addAttribute("notify", notify);
+		//加载附件
+		Map<String,Object> fileMap = new HashMap<String,Object>();
+		fileMap.put("",notify.getId());
 		return "oa/notify/detail";
 	}
 

@@ -24,6 +24,7 @@ $.validator.setDefaults({
 function save() {
     var content_sn = $("#content_sn").summernote('code');
     $("#content").val(content_sn);
+    debugger;
 	$.ajax({
 		cache : true,
 		type : "POST",
@@ -91,12 +92,13 @@ function loadType(){
 }
 
 var openUser = function(){
-	layer.open({
+	var selectUsers = layer.open({
 		type:2,
 		title:"选择人员",
 		area : [ '300px', '450px' ],
 		content:"/sys/user/treeView"
-	})
+	});
+	layer.full(selectUsers);
 }
 
 function loadUser(userIds,userNames){
@@ -124,7 +126,7 @@ function upLoadFile() {
         dataType : "json",
         success: function(data) {//data是返回的hash,key之类的值，key是定义的文件名
             layer.msg("上传成功！");
-            $("#fileUrl").val(data.fileName);
+            $("#fileIds").val(data.fileId);
         },
         error:function(){
             alert("上传失败！");
