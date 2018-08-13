@@ -1,6 +1,6 @@
 $().ready(function() {
     $('.summernote').summernote({
-        height : '300px',
+        height : '500px',
         lang : 'zh-CN',
         callbacks: {
             onImageUpload: function(files, editor, $editable) {
@@ -20,6 +20,8 @@ $.validator.setDefaults({
 	}
 });
 function update() {
+    var content_sn = $("#content_sn").summernote('code');
+    $("#content").val(content_sn);
 	$.ajax({
 		cache : true,
 		type : "POST",

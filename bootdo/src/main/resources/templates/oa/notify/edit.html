@@ -47,10 +47,10 @@
 						<div class="form-group">
 							<label class="col-sm-1 control-label ">接收人：</label>
 							<div class="col-sm-11">
-								<input id="userIds" name="userIds" th:value="${#strings.arrayToString(notify.userIds)}">
+								<input class="col-sm-12" id="userIds" name="userIds" th:value="${#strings.listToString(notify.userIds)}">
 								<input id="userNames" name="userNames" class="form-control"
 									   type="text" onclick="openUser()"
-									   readonly="readonly" placeholder="接收人" required>
+									   readonly="readonly" placeholder="接收人" th:value="${#strings.listToString(notify.userNames)}" required>
 							</div>
 						</div>
 
@@ -59,10 +59,10 @@
 							<div class="switch  col-sm-1">
 								<div class="onoffswitch">
 									<input id="status" name="status" checked="" type="checkbox"
-										   th:value="${notify.status}" class="onoffswitch-checkbox"> <label
-										class="onoffswitch-label" for="status"> <span
-										class="onoffswitch-inner"></span> <span
-										class="onoffswitch-switch"></span>
+										   th:value="${notify.status}" class="onoffswitch-checkbox">
+									<label class="onoffswitch-label" for="status">
+										<span class="onoffswitch-inner"></span>
+										<span class="onoffswitch-switch"></span>
 								</label>
 								</div>
 							</div>
@@ -90,8 +90,7 @@
 	</div>
 </div>
 	<div th:include="include::footer"></div>
-	<script type="text/javascript" src="/js/appjs/oa/notify/edit.js">
+	<script type="text/javascript" src="/js/appjs/oa/notify/edit.js" />
 
-	</script>
 </body>
 </html>

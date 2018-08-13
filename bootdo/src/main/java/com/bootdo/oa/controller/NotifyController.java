@@ -11,6 +11,7 @@ import com.bootdo.oa.domain.NotifyDO;
 import com.bootdo.oa.domain.NotifyRecordDO;
 import com.bootdo.oa.service.NotifyRecordService;
 import com.bootdo.oa.service.NotifyService;
+import com.bootdo.system.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,8 @@ public class NotifyController extends BaseController {
 	private NotifyRecordService notifyRecordService;
 	@Autowired
 	private DictService dictService;
+	@Autowired
+	private UserService userService;
 
 	@GetMapping()
 	@RequiresPermissions("oa:notify:notify")
@@ -75,7 +78,7 @@ public class NotifyController extends BaseController {
 				dictDO.setRemarks("checked");
 			}
 		}
-		//加载发送人信息
+		//加载发送人id
 		Map<String,Object> recordMap = new HashMap<String,Object>(16);
 		recordMap.put("notifyId",id);
 		List<NotifyRecordDO> recordDOS = notifyRecordService.list(recordMap);
@@ -87,6 +90,8 @@ public class NotifyController extends BaseController {
 			}
 			notify.setUserIds(userIds);
 		}
+		//加载发送人姓名
+		notify.setUserNames(userService.listUserNames(notify.getUserIds()));
 		model.addAttribute("oaNotifyTypes",dictDOS);
 		model.addAttribute("notify", notify);
 		return "oa/notify/edit";

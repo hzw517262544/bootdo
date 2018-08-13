@@ -241,4 +241,8 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Override
+    public List<String> listUserNames(Long[] userIds){
+        return userMapper.listUserNames(userIds);
+    }
 }
