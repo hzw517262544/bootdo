@@ -1835,7 +1835,7 @@ table.dataTable thead .sorting:after {
 
 .form-control, .single-line {
     background: #FFFFFF none;
-    border: 1px solid #e5e6e7;
+    border: 1px solid #95b4e7;
     border-radius: 1px;
     color: inherit;
     display: block;
@@ -5584,7 +5584,7 @@ del {
         transform: translateX(42px)  translateY(42px)  rotate(-179deg);
     }
 
-50 .1 % {
+50. 1 % {
     -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
     transform: translateX(42px) translateY(42px) rotate(-180deg);
 }

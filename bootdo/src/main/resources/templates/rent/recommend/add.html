@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-4" style="float: right">
+				<img src="" id="houseImg" style="height: 80%;width: 90%;border: #2aabd2"/>
+				<input type="file" id="imgFile"/>
+			</div>
+			<div class="col-sm-8">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">户型：</label>
+								<div class="col-sm-8">
+									<input id="houseType" name="houseType" class="form-control" type="text" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">简介：</label>
+								<div class="col-sm-8">
+									<textarea  id="houseAbstract" name="houseAbstract" class="form-control" style="height: 100px;" ></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">位置：</label>
+								<div class="col-sm-8">
+									<input id="location" name="location" class="form-control" type="text" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">价格：</label>
+								<div class="col-sm-8">
+									<input id="price" name="price" class="form-control" type="number" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">图片路径：</label>
+								<div class="col-sm-8">
+									<input id="imgUrl" name="imgUrl" class="form-control" type="text" >
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/rent/recommend/add.js">
+	</script>
+</body>
+</html>

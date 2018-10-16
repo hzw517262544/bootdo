@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.rent.dao.RecommendDao">
+
+	<select id="get" resultType="com.bootdo.rent.domain.RecommendDO">
+		select `id`,`house_type`,`house_abstract`,`location`,`price`,`img_url` from rent_recommend where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.rent.domain.RecommendDO">
+		select `id`,`house_type`,`house_abstract`,`location`,`price`,`img_url` from rent_recommend
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="houseType != null and houseType != ''"> and house_type like '%${houseType}%' </if>
+		  		  <if test="houseAbstract != null and houseAbstract != ''"> and house_abstract like '%${houseAbstract}%' </if>
+		  		  <if test="location != null and location != ''"> and location like '%${location}%' </if>
+		  		  <if test="price != null and price != ''"> and price = #{price} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from rent_recommend
+		 <where>
+			 <if test="id != null and id != ''"> and id = #{id} </if>
+			 <if test="houseType != null and houseType != ''"> and house_type like '%${houseType}%' </if>
+			 <if test="houseAbstract != null and houseAbstract != ''"> and house_abstract like '%${houseAbstract}%' </if>
+			 <if test="location != null and location != ''"> and location like '%${location}%' </if>
+			 <if test="price != null and price != ''"> and price = #{price} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.rent.domain.RecommendDO" useGeneratedKeys="true" keyProperty="id">
+		insert into rent_recommend
+		(
+			`house_type`, 
+			`house_abstract`, 
+			`location`, 
+			`price`,
+			`img_url`
+		)
+		values
+		(
+			#{houseType}, 
+			#{houseAbstract}, 
+			#{location}, 
+			#{price},
+			#{imgUrl}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.rent.domain.RecommendDO">
+		update rent_recommend 
+		<set>
+			<if test="houseType != null">`house_type` = #{houseType}, </if>
+			<if test="houseAbstract != null">`house_abstract` = #{houseAbstract}, </if>
+			<if test="location != null">`location` = #{location}, </if>
+			<if test="price != null">`price` = #{price}</if>
+			<if test="img_url != null">`img_url` = #{imgUrl}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from rent_recommend where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from rent_recommend where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
