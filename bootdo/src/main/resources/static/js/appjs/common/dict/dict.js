@@ -181,7 +181,7 @@ function reLoad() {
 	$('#exampleTable').bootstrapTable('refresh', opt);
 }
 function add() {
-	layer.open({
+	var addDict = layer.open({
 		type : 2,
 		title : '增加',
 		maxmin : true,
@@ -189,9 +189,10 @@ function add() {
 		area : [ '800px', '520px' ],
 		content : prefix + '/add' // iframe的url
 	});
+    layer.full(addDict);
 }
 function edit(id) {
-	layer.open({
+	var editDict = layer.open({
 		type : 2,
 		title : '编辑',
 		maxmin : true,
@@ -199,6 +200,7 @@ function edit(id) {
 		area : [ '800px', '520px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
+    layer.full(editDict);
 }
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.rent.dao.RentHousesDao">
+
+	<select id="get" resultType="com.bootdo.rent.domain.RentHousesDO">
+		select `id`,`country`,`province`,`city`,`district`,`address`,`village_name`,`building_num`,`floor_num`,`house_no`,`total_floor_num`,`description`,`bed_room_num`,`living_room_num`,`parking_num`,`dining_room_num`,`kitchen_num`,`rest_room_num`,`elevator_num`,`floor_room_num`,`house_type_img_url` from rent_houses where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.rent.domain.RentHousesDO">
+		select `id`,`country`,`province`,`city`,`district`,`address`,`village_name`,`building_num`,`floor_num`,`house_no`,`total_floor_num`,`description`,`bed_room_num`,`living_room_num`,`parking_num`,`dining_room_num`,`kitchen_num`,`rest_room_num`,`elevator_num`,`floor_room_num`,`house_type_img_url` from rent_houses
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="country != null and country != ''"> and country = #{country} </if>
+		  		  <if test="province != null and province != ''"> and province = #{province} </if>
+		  		  <if test="city != null and city != ''"> and city = #{city} </if>
+		  		  <if test="district != null and district != ''"> and district = #{district} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="villageName != null and villageName != ''"> and village_name = #{villageName} </if>
+		  		  <if test="buildingNum != null and buildingNum != ''"> and building_num = #{buildingNum} </if>
+		  		  <if test="floorNum != null and floorNum != ''"> and floor_num = #{floorNum} </if>
+		  		  <if test="houseNo != null and houseNo != ''"> and house_no = #{houseNo} </if>
+		  		  <if test="totalFloorNum != null and totalFloorNum != ''"> and total_floor_num = #{totalFloorNum} </if>
+		  		  <if test="description != null and description != ''"> and description = #{description} </if>
+		  		  <if test="bedRoomNum != null and bedRoomNum != ''"> and bed_room_num = #{bedRoomNum} </if>
+		  		  <if test="livingRoomNum != null and livingRoomNum != ''"> and living_room_num = #{livingRoomNum} </if>
+		  		  <if test="parkingNum != null and parkingNum != ''"> and parking_num = #{parkingNum} </if>
+		  		  <if test="diningRoomNum != null and diningRoomNum != ''"> and dining_room_num = #{diningRoomNum} </if>
+		  		  <if test="kitchenNum != null and kitchenNum != ''"> and kitchen_num = #{kitchenNum} </if>
+		  		  <if test="restRoomNum != null and restRoomNum != ''"> and rest_room_num = #{restRoomNum} </if>
+		  		  <if test="elevatorNum != null and elevatorNum != ''"> and elevator_num = #{elevatorNum} </if>
+		  		  <if test="floorRoomNum != null and floorRoomNum != ''"> and floor_room_num = #{floorRoomNum} </if>
+		  		  <if test="houseTypeImgUrl != null and houseTypeImgUrl != ''"> and house_type_img_url = #{houseTypeImgUrl} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from rent_houses
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="country != null and country != ''"> and country = #{country} </if>
+		  		  <if test="province != null and province != ''"> and province = #{province} </if>
+		  		  <if test="city != null and city != ''"> and city = #{city} </if>
+		  		  <if test="district != null and district != ''"> and district = #{district} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="villageName != null and villageName != ''"> and village_name = #{villageName} </if>
+		  		  <if test="buildingNum != null and buildingNum != ''"> and building_num = #{buildingNum} </if>
+		  		  <if test="floorNum != null and floorNum != ''"> and floor_num = #{floorNum} </if>
+		  		  <if test="houseNo != null and houseNo != ''"> and house_no = #{houseNo} </if>
+		  		  <if test="totalFloorNum != null and totalFloorNum != ''"> and total_floor_num = #{totalFloorNum} </if>
+		  		  <if test="description != null and description != ''"> and description = #{description} </if>
+		  		  <if test="bedRoomNum != null and bedRoomNum != ''"> and bed_room_num = #{bedRoomNum} </if>
+		  		  <if test="livingRoomNum != null and livingRoomNum != ''"> and living_room_num = #{livingRoomNum} </if>
+		  		  <if test="parkingNum != null and parkingNum != ''"> and parking_num = #{parkingNum} </if>
+		  		  <if test="diningRoomNum != null and diningRoomNum != ''"> and dining_room_num = #{diningRoomNum} </if>
+		  		  <if test="kitchenNum != null and kitchenNum != ''"> and kitchen_num = #{kitchenNum} </if>
+		  		  <if test="restRoomNum != null and restRoomNum != ''"> and rest_room_num = #{restRoomNum} </if>
+		  		  <if test="elevatorNum != null and elevatorNum != ''"> and elevator_num = #{elevatorNum} </if>
+		  		  <if test="floorRoomNum != null and floorRoomNum != ''"> and floor_room_num = #{floorRoomNum} </if>
+		  		  <if test="houseTypeImgUrl != null and houseTypeImgUrl != ''"> and house_type_img_url = #{houseTypeImgUrl} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.rent.domain.RentHousesDO">
+		insert into rent_houses
+		(
+			`id`, 
+			`country`, 
+			`province`, 
+			`city`, 
+			`district`, 
+			`address`, 
+			`village_name`, 
+			`building_num`, 
+			`floor_num`, 
+			`house_no`, 
+			`total_floor_num`, 
+			`description`, 
+			`bed_room_num`, 
+			`living_room_num`, 
+			`parking_num`, 
+			`dining_room_num`, 
+			`kitchen_num`, 
+			`rest_room_num`, 
+			`elevator_num`, 
+			`floor_room_num`, 
+			`house_type_img_url`
+		)
+		values
+		(
+			#{id}, 
+			#{country}, 
+			#{province}, 
+			#{city}, 
+			#{district}, 
+			#{address}, 
+			#{villageName}, 
+			#{buildingNum}, 
+			#{floorNum}, 
+			#{houseNo}, 
+			#{totalFloorNum}, 
+			#{description}, 
+			#{bedRoomNum}, 
+			#{livingRoomNum}, 
+			#{parkingNum}, 
+			#{diningRoomNum}, 
+			#{kitchenNum}, 
+			#{restRoomNum}, 
+			#{elevatorNum}, 
+			#{floorRoomNum}, 
+			#{houseTypeImgUrl}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.rent.domain.RentHousesDO">
+		update rent_houses 
+		<set>
+			<if test="country != null">`country` = #{country}, </if>
+			<if test="province != null">`province` = #{province}, </if>
+			<if test="city != null">`city` = #{city}, </if>
+			<if test="district != null">`district` = #{district}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="villageName != null">`village_name` = #{villageName}, </if>
+			<if test="buildingNum != null">`building_num` = #{buildingNum}, </if>
+			<if test="floorNum != null">`floor_num` = #{floorNum}, </if>
+			<if test="houseNo != null">`house_no` = #{houseNo}, </if>
+			<if test="totalFloorNum != null">`total_floor_num` = #{totalFloorNum}, </if>
+			<if test="description != null">`description` = #{description}, </if>
+			<if test="bedRoomNum != null">`bed_room_num` = #{bedRoomNum}, </if>
+			<if test="livingRoomNum != null">`living_room_num` = #{livingRoomNum}, </if>
+			<if test="parkingNum != null">`parking_num` = #{parkingNum}, </if>
+			<if test="diningRoomNum != null">`dining_room_num` = #{diningRoomNum}, </if>
+			<if test="kitchenNum != null">`kitchen_num` = #{kitchenNum}, </if>
+			<if test="restRoomNum != null">`rest_room_num` = #{restRoomNum}, </if>
+			<if test="elevatorNum != null">`elevator_num` = #{elevatorNum}, </if>
+			<if test="floorRoomNum != null">`floor_room_num` = #{floorRoomNum}, </if>
+			<if test="houseTypeImgUrl != null">`house_type_img_url` = #{houseTypeImgUrl}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from rent_houses where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from rent_houses where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,5 +1,5 @@
 
-var prefix = "/rent/recommend"
+var prefix = "/rent/rentHouses"
 $(function() {
 	load();
 });
@@ -10,9 +10,9 @@ function load() {
 					{
 						method : 'get', // 服务器数据的请求方式 get or post
 						url : prefix + "/list", // 服务器数据的加载地址
-						// showRefresh : true,
-						// showToggle : true,
-						// showColumns : true,
+					//	showRefresh : true,
+					//	showToggle : true,
+					//	showColumns : true,
 						iconSize : 'outline',
 						toolbar : '#exampleToolbar',
 						striped : true, // 设置为true会有隔行变色效果
@@ -21,6 +21,7 @@ function load() {
 						// queryParamsType : "limit",
 						// //设置为limit则会发送符合RESTFull格式的参数
 						singleSelect : false, // 设置为true将禁止多选
+                        clickToSelect: true,
 						// contentType : "application/x-www-form-urlencoded",
 						// //发送到服务器的数据编码类型
 						pageSize : 10, // 如果设置了分页，每页数据条数
@@ -32,10 +33,8 @@ function load() {
 							return {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
-								offset:params.offset,
-                                houseType:$('#houseType').val(),
-                                houseAbstract:$('#houseAbstract').val(),
-                                location:$('#location').val()
+								offset:params.offset
+					           // name:$('#searchName').val(),
 					           // username:$('#searchName').val()
 							};
 						},
@@ -48,9 +47,10 @@ function load() {
 						columns : [
 								{
 									checkbox : true
-								},{
+								},
+																{
 									field : 'id', 
-									title : 'id'
+									title : '' 
 								},{
                                 field : 'Number',
                                 title : '序号',
@@ -62,21 +62,86 @@ function load() {
                                     var pageNumber=$('#exampleTable').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
                                     return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
                                 }
-                            },{
-									field : 'houseType', 
-									title : '户型'
+                            },
+																{
+									field : 'country', 
+									title : '国家' 
 								},
 																{
-									field : 'houseAbstract', 
-									title : '简介' 
+									field : 'province', 
+									title : '省' 
 								},
 																{
-									field : 'location', 
-									title : '位置' 
+									field : 'city', 
+									title : '市' 
 								},
 																{
-									field : 'price', 
-									title : '价格' 
+									field : 'district', 
+									title : '区' 
+								},
+																{
+									field : 'address', 
+									title : '详细地址' 
+								},
+																{
+									field : 'villageName', 
+									title : '小区名称' 
+								},
+																{
+									field : 'buildingNum', 
+									title : '楼栋' 
+								},
+																{
+									field : 'floorNum', 
+									title : '楼层' 
+								},
+																{
+									field : 'houseNo', 
+									title : '门牌号' 
+								},
+																{
+									field : 'totalFloorNum', 
+									title : '总楼层' 
+								},
+																{
+									field : 'description', 
+									title : '介绍' 
+								},
+																{
+									field : 'bedRoomNum', 
+									title : '卧室数量' 
+								},
+																{
+									field : 'livingRoomNum', 
+									title : '客厅数量' 
+								},
+																{
+									field : 'parkingNum', 
+									title : '车位数量' 
+								},
+																{
+									field : 'diningRoomNum', 
+									title : '餐厅数量' 
+								},
+																{
+									field : 'kitchenNum', 
+									title : '' 
+								},
+																{
+									field : 'restRoomNum', 
+									title : '卫生间数量' 
+								},
+																{
+									field : 'elevatorNum', 
+									title : '电梯数量' 
+								},
+																{
+									field : 'floorRoomNum', 
+									title : '每层户数' 
+								},
+																{
+									field : 'houseTypeImgUrl', 
+									title : '户型图' 
 								},
 																{
 									title : '操作',
@@ -101,7 +166,7 @@ function reLoad() {
 	$('#exampleTable').bootstrapTable('refresh');
 }
 function add() {
-	var addPage = layer.open({
+	layer.open({
 		type : 2,
 		title : '增加',
 		maxmin : true,
@@ -109,10 +174,9 @@ function add() {
 		area : [ '800px', '520px' ],
 		content : prefix + '/add' // iframe的url
 	});
-	layer.full(addPage);
 }
 function edit(id) {
-	var editPage = layer.open({
+	layer.open({
 		type : 2,
 		title : '编辑',
 		maxmin : true,
@@ -120,7 +184,6 @@ function edit(id) {
 		area : [ '800px', '520px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
-	layer.full(editPage);
 }
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {

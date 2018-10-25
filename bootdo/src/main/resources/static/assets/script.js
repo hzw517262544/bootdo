@@ -5,13 +5,21 @@
             interval: 3000
         }); 
         $('.carousel').carousel('cycle');
+
+      /*加载select*/
+      $("select").each(function (index,element) {
+          var selectType = element.name;
+          var id = element.id;
+          if(selectType != undefined&&selectType != ''){
+              getSelectType(id,selectType,null);
+          }
+      });
  }); 
 
 
 
 
   $(function() {
-      
         var Page = (function() {
 
         	
@@ -76,3 +84,27 @@
         */
       
       });
+
+  function getSelectType(elementId,selectType,parentSelectTypeId) {
+      $.ajax({
+          url : '/rent/loadDict',
+          data:{
+              limit: 10000,
+              offset:0,
+              'type':selectType,
+              'parentId':parentSelectTypeId
+          },
+          success : function(data) {
+              //加载数据
+              var html = "";
+              var rows = data.rows;
+              for (var i = 0; i < rows.length; i++) {
+                  html += '<option value="' + rows[i].type + '">' + rows[i].name + '</option>'
+              }
+              $("#"+elementId).append(html);
+              $("#"+elementId).chosen({
+                  maxHeight : 200
+              });
+          }
+      });
+  }

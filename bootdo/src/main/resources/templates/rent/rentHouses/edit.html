@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${rentHouses.id}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">国家：</label>
+								<div class="col-sm-8">
+									<input id="country" name="country" th:value="${rentHouses.country}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">省：</label>
+								<div class="col-sm-8">
+									<input id="province" name="province" th:value="${rentHouses.province}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">市：</label>
+								<div class="col-sm-8">
+									<input id="city" name="city" th:value="${rentHouses.city}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">区：</label>
+								<div class="col-sm-8">
+									<input id="district" name="district" th:value="${rentHouses.district}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">详细地址：</label>
+								<div class="col-sm-8">
+									<input id="address" name="address" th:value="${rentHouses.address}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">小区名称：</label>
+								<div class="col-sm-8">
+									<input id="villageName" name="villageName" th:value="${rentHouses.villageName}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">楼栋：</label>
+								<div class="col-sm-8">
+									<input id="buildingNum" name="buildingNum" th:value="${rentHouses.buildingNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">楼层：</label>
+								<div class="col-sm-8">
+									<input id="floorNum" name="floorNum" th:value="${rentHouses.floorNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">门牌号：</label>
+								<div class="col-sm-8">
+									<input id="houseNo" name="houseNo" th:value="${rentHouses.houseNo}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">总楼层：</label>
+								<div class="col-sm-8">
+									<input id="totalFloorNum" name="totalFloorNum" th:value="${rentHouses.totalFloorNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">介绍：</label>
+								<div class="col-sm-8">
+									<input id="description" name="description" th:value="${rentHouses.description}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">卧室数量：</label>
+								<div class="col-sm-8">
+									<input id="bedRoomNum" name="bedRoomNum" th:value="${rentHouses.bedRoomNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">客厅数量：</label>
+								<div class="col-sm-8">
+									<input id="livingRoomNum" name="livingRoomNum" th:value="${rentHouses.livingRoomNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">车位数量：</label>
+								<div class="col-sm-8">
+									<input id="parkingNum" name="parkingNum" th:value="${rentHouses.parkingNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">餐厅数量：</label>
+								<div class="col-sm-8">
+									<input id="diningRoomNum" name="diningRoomNum" th:value="${rentHouses.diningRoomNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">：</label>
+								<div class="col-sm-8">
+									<input id="kitchenNum" name="kitchenNum" th:value="${rentHouses.kitchenNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">卫生间数量：</label>
+								<div class="col-sm-8">
+									<input id="restRoomNum" name="restRoomNum" th:value="${rentHouses.restRoomNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">电梯数量：</label>
+								<div class="col-sm-8">
+									<input id="elevatorNum" name="elevatorNum" th:value="${rentHouses.elevatorNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">每层户数：</label>
+								<div class="col-sm-8">
+									<input id="floorRoomNum" name="floorRoomNum" th:value="${rentHouses.floorRoomNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">户型图：</label>
+								<div class="col-sm-8">
+									<input id="houseTypeImgUrl" name="houseTypeImgUrl" th:value="${rentHouses.houseTypeImgUrl}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/rent/rentHouses/edit.js">
+	</script>
+</body>
+</html>
