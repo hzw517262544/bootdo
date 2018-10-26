@@ -1,8 +1,6 @@
-package com.bootdo.rent.domain;
+package com.bootdo.easyrent.domain;
 
 import java.io.Serializable;
-import java.util.Date;
-
 
 
 /**

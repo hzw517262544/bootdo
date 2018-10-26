@@ -1,6 +1,6 @@
-package com.bootdo.rent.service;
+package com.bootdo.easyrent.service;
 
-import com.bootdo.rent.domain.RentHousesDO;
+import com.bootdo.easyrent.domain.RentHousesDO;
 
 import java.util.List;
 import java.util.Map;

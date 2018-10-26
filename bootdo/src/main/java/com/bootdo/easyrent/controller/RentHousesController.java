@@ -1,4 +1,4 @@
-package com.bootdo.rent.controller;
+package com.bootdo.easyrent.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -10,13 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bootdo.rent.domain.RecommendDO;
-import com.bootdo.rent.service.RecommendService;
+import com.bootdo.easyrent.domain.RentHousesDO;
+import com.bootdo.easyrent.service.RentHousesService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
@@ -26,45 +25,45 @@ import com.bootdo.common.utils.R;
  * 
  * @author haozw
  * @email hao17681124518@163.com
- * @date 2018-10-14 09:36:30
+ * @date 2018-10-21 21:04:04
  */
  
 @Controller
-@RequestMapping("/rent/recommend")
-public class RecommendController {
+@RequestMapping("/rent/rentHouses")
+public class RentHousesController {
 	@Autowired
-	private RecommendService recommendService;
+	private RentHousesService rentHousesService;
 	
 	@GetMapping()
-	@RequiresPermissions("rent:recommend:recommend")
-	String Recommend(){
-	    return "rent/recommend/recommend";
+	@RequiresPermissions("rent:rentHouses:rentHouses")
+	String RentHouses(){
+	    return "rent/rentHouses/rentHouses";
 	}
 	
 	@ResponseBody
 	@GetMapping("/list")
-	@RequiresPermissions("rent:recommend:recommend")
+	@RequiresPermissions("rent:rentHouses:rentHouses")
 	public PageUtils list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
-		List<RecommendDO> recommendList = recommendService.list(query);
-		int total = recommendService.count(query);
-		PageUtils pageUtils = new PageUtils(recommendList, total);
+		List<RentHousesDO> rentHousesList = rentHousesService.list(query);
+		int total = rentHousesService.count(query);
+		PageUtils pageUtils = new PageUtils(rentHousesList, total);
 		return pageUtils;
 	}
 	
 	@GetMapping("/add")
-	@RequiresPermissions("rent:recommend:add")
+	@RequiresPermissions("rent:rentHouses:add")
 	String add(){
-	    return "rent/recommend/add";
+	    return "rent/rentHouses/add";
 	}
 
 	@GetMapping("/edit/{id}")
-	@RequiresPermissions("rent:recommend:edit")
+	@RequiresPermissions("rent:rentHouses:edit")
 	String edit(@PathVariable("id") Integer id,Model model){
-		RecommendDO recommend = recommendService.get(id);
-		model.addAttribute("recommend", recommend);
-	    return "rent/recommend/edit";
+		RentHousesDO rentHouses = rentHousesService.get(id);
+		model.addAttribute("rentHouses", rentHouses);
+	    return "rent/rentHouses/edit";
 	}
 	
 	/**
@@ -72,9 +71,9 @@ public class RecommendController {
 	 */
 	@ResponseBody
 	@PostMapping("/save")
-	@RequiresPermissions("rent:recommend:add")
-	public R save( RecommendDO recommend){
-		if(recommendService.save(recommend)>0){
+	@RequiresPermissions("rent:rentHouses:add")
+	public R save( RentHousesDO rentHouses){
+		if(rentHousesService.save(rentHouses)>0){
 			return R.ok();
 		}
 		return R.error();
@@ -84,9 +83,9 @@ public class RecommendController {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	@RequiresPermissions("rent:recommend:edit")
-	public R update( RecommendDO recommend){
-		recommendService.update(recommend);
+	@RequiresPermissions("rent:rentHouses:edit")
+	public R update( RentHousesDO rentHouses){
+		rentHousesService.update(rentHouses);
 		return R.ok();
 	}
 	
@@ -95,9 +94,9 @@ public class RecommendController {
 	 */
 	@PostMapping( "/remove")
 	@ResponseBody
-	@RequiresPermissions("rent:recommend:remove")
+	@RequiresPermissions("rent:rentHouses:remove")
 	public R remove( Integer id){
-		if(recommendService.remove(id)>0){
+		if(rentHousesService.remove(id)>0){
 		return R.ok();
 		}
 		return R.error();
@@ -108,9 +107,9 @@ public class RecommendController {
 	 */
 	@PostMapping( "/batchRemove")
 	@ResponseBody
-	@RequiresPermissions("rent:recommend:batchRemove")
+	@RequiresPermissions("rent:rentHouses:batchRemove")
 	public R remove(@RequestParam("ids[]") Integer[] ids){
-		recommendService.batchRemove(ids);
+		rentHousesService.batchRemove(ids);
 		return R.ok();
 	}
 	

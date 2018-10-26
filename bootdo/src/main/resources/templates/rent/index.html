@@ -101,7 +101,8 @@
         </div>
         <div class="col-lg-5 col-lg-offset-1 col-sm-6 ">
           <p>Join now and get updated with all the properties deals.</p>
-          <button class="btn btn-info"   data-toggle="modal" data-target="#loginpop">登录</button>        </div>
+          <button class="btn btn-info"   data-toggle="modal" data-target="#loginpop">登录</button>
+        </div>
       </div>
     </div>
   </div>
@@ -262,46 +263,11 @@
   </div>
 </div>
 
-<!-- Modal -->
-<div id="loginpop" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="row">
-        <div class="col-sm-6 login">
-          <h4>登录</h4>
-          <form class="" role="form">
-            <div class="form-group">
-              <label class="sr-only" for="exampleInputEmail2">邮箱</label>
-              <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-              <label class="sr-only" for="exampleInputPassword2">密码</label>
-              <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox"> 记住我
-              </label>
-            </div>
-            <button type="submit" class="btn btn-success">登录</button>
-          </form>
-        </div>
-        <div class="col-sm-6">
-          <h4>新用户注册</h4>
-          <p>Join today and get updated with all the properties deal happening around.</p>
-          <button type="submit" class="btn btn-info"  onclick="window.location.href='/rent/register'">马上注册</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
-<!-- /.modal -->
-
+<footer  th:replace="/rent/login::login"></footer>
 <!-- Modal -->
 <footer  th:replace="/rent/footer::rentFooter"></footer>
 <!-- slitslider -->
-<script type="text/javascript" src="assets/js/index.js"></script>
+<script type="text/javascript" src="/js/appjs/rent/index.js"></script>
 <!-- /.modal -->
 <script th:inline="javascript" type="text/javascript">
     $(function (){

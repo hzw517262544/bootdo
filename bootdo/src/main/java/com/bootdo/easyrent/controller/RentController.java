@@ -1,23 +1,26 @@
-package com.bootdo.rent.controller;
+package com.bootdo.easyrent.controller;
 
+import com.bootdo.common.annotation.Log;
 import com.bootdo.common.controller.BaseController;
 import com.bootdo.common.domain.DictDO;
 import com.bootdo.common.service.DictService;
+import com.bootdo.common.utils.MD5Utils;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
-import com.bootdo.rent.common.RentConstant;
-import com.bootdo.rent.domain.RecommendDO;
-import com.bootdo.rent.service.RecommendService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.bootdo.common.utils.R;
+import com.bootdo.easyrent.common.RentConstant;
+import com.bootdo.easyrent.domain.RecommendDO;
+import com.bootdo.easyrent.service.RecommendService;
+import com.bootdo.system.domain.UserDO;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +41,7 @@ public class RentController extends BaseController {
 		//加载推荐房源信息
 		List<RecommendDO> recommendList = recommendService.list(null);
 		model.addAttribute("recommendList",recommendList);
+		UserDO userDO = getUser();
 		return "rent/index";
 	}
 
@@ -90,5 +94,28 @@ public class RentController extends BaseController {
 		int total = dictService.count(query);
 		PageUtils pageUtils = new PageUtils(dictList, total);
 		return pageUtils;
+	}
+
+	@Log("易租用户登录")
+	@PostMapping("/login")
+	@ResponseBody
+	R rentLogin(String username, String password,String rememberMe) {
+		//判断当前用户是否已经登录，是-提醒无需重复登录
+		UserDO currUser = getUser();
+		if(username.equals(currUser.getUsername())){
+			return R.error("当前用户已登录，无需重复登录");
+		}
+		password = MD5Utils.encrypt(username, password);
+		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+		if("on".equals(rememberMe)){
+			token.setRememberMe(true);
+		}
+		Subject subject = SecurityUtils.getSubject();
+		try {
+			subject.login(token);
+			return R.ok();
+		} catch (AuthenticationException e) {
+			return R.error("用户或密码错误");
+		}
 	}
 }

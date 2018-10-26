@@ -1,0 +1,35 @@
+<!-- Modal -->
+<div id="loginpop" class="modal fade" th:fragment="login">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-sm-6 login">
+                    <h4>登录</h4>
+                    <form class="" role="form" id="easyRentLoginForm">
+                        <div class="form-group">
+                            <label class="sr-only" for="username">用户名</label>
+                            <input type="username" class="form-control" id="username" name="username" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="password">密码</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="rememberMe"> 记住我
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-success">登录</button>
+                    </form>
+                </div>
+                <div class="col-sm-6">
+                    <h4>新用户注册</h4>
+                    <p>Join today and get updated with all the properties deal happening around.</p>
+                    <button type="submit" class="btn btn-info"  onclick="window.location.href='/rent/register'">马上注册</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
