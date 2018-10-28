@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="/rent/header::rentHeader"></head>
+<body>
+<div th:replace="/rent/naver::naver"></div>
+<!-- banner -->
+<div class="inside-banner">
+  <div class="container">
+    <span class="pull-right"><a href="/rent">首页</a> / 关于我们</span>
+    <h2>关于我们</h2>
+
+</div>
+</div>
+<!-- banner -->
+
+<div class="container">
+<div class="spacer">
+<div class="row">
+  <div class="col-lg-8  col-lg-offset-2">
+  <img src="/images/about.jpg" class="img-responsive thumbnail"  alt="realestate">
+  <h3>企业背景</h3>
+    <p th:text="${Business_Background}"></p>
+  <h3>公司简介</h3>
+    <p th:text="${Company_Profile}"></p>
+  </div>
+
+</div>
+</div>
+</div>
+<div  th:replace="/rent/login::login"></div>
+<footer th:replace="/rent/footer::rentFooter"></footer>
+</body>
+</html>

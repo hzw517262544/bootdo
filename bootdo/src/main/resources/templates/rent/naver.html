@@ -1,0 +1,41 @@
+
+    <!-- Header Starts -->
+    <div class="navbar-wrapper" th:fragment="naver">
+
+        <div class="navbar-inverse" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+
+
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                </div>
+
+
+                <!-- Nav Starts -->
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right" id="top_navs">
+                        <li class="active"><a href="/rent">首页</a></li>
+                        <li><a href="/rent/about">关于我们</a></li>
+                        <li><a href="/rent/agents">经纪人</a></li>
+                        <li><a href="/rent/blog">部落</a></li>
+                        <li><a href="/rent/contact">联系我们</a></li>
+                    </ul>
+                    <div style="float: left;">
+                        <span><img id="nav_img" alt="image" class="img-circle" style="height: 40px;width: 40px;"  src="/images/noPic.jpg"/></span>
+                        <a id="nav_login" style="cursor: pointer;" data-toggle="modal" data-target="#loginpop">登录/</a><a id="nav_register" style="cursor: pointer;" href="/rent/register">注册</a>
+                        <a id="nav_logout" style="cursor: pointer;" href="/rent/logout" hidden="hidden">登出</a>
+                    </div>
+                </div>
+                <!-- #Nav Ends -->
+
+            </div>
+
+        </div>
+    </div>
+    <!-- #Header Starts -->
