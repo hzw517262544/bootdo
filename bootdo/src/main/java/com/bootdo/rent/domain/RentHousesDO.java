@@ -1,4 +1,4 @@
-package com.bootdo.easyrent.domain;
+package com.bootdo.rent.domain;
 
 import java.io.Serializable;
 

@@ -263,23 +263,25 @@
   </div>
 </div>
 
-<footer  th:replace="/rent/login::login"></footer>
+<div  th:replace="/rent/login::login"></div>
 <!-- Modal -->
 <footer  th:replace="/rent/footer::rentFooter"></footer>
 <!-- slitslider -->
 <script type="text/javascript" src="/js/appjs/rent/index.js"></script>
 <!-- /.modal -->
 <script th:inline="javascript" type="text/javascript">
-    $(function (){
-        /*var recommendList = [[${recommendList}]];
-        var navDotsHtml = '<span class="nav-dot-current"></span>';
-        if(recommendList.length>1){
-          for(var i=1;i<recommendList.length;i++){
-              navDotsHtml += '<span class=""></span>';
-          }
-          $("#nav-dots").html(navDotsHtml);
-        }*/
-    });
+    /*$(function (){
+        var loginUser = [[${loginUser}]];
+        if(loginUser.username == undefined||loginUser.username == ''){
+            $("#nav_logout").hide();
+            $("#nav_login").show();
+            $("#nav_register").show();
+        }else{
+            $("#nav_logout").show();
+            $("#nav_login").hide();
+            $("#nav_register").hide();
+        }
+    });*/
 </script>
 
 

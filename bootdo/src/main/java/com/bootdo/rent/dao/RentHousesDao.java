@@ -1,6 +1,6 @@
-package com.bootdo.easyrent.dao;
+package com.bootdo.rent.dao;
 
-import com.bootdo.easyrent.domain.RentHousesDO;
+import com.bootdo.rent.domain.RentHousesDO;
 
 import java.util.List;
 import java.util.Map;

@@ -1,21 +1,19 @@
-package com.bootdo.easyrent.dao;
+package com.bootdo.rent.service;
 
-import com.bootdo.easyrent.domain.RecommendDO;
+import com.bootdo.rent.domain.RecommendDO;
 
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Mapper;
-
 /**
+ * 
  * 
  * @author haozw
  * @email hao17681124518@163.com
  * @date 2018-10-14 09:36:30
  */
-@Mapper
-public interface RecommendDao {
-
+public interface RecommendService {
+	
 	RecommendDO get(Integer id);
 	
 	List<RecommendDO> list(Map<String, Object> map);

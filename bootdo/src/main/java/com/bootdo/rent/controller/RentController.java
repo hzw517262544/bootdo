@@ -1,17 +1,17 @@
-package com.bootdo.easyrent.controller;
+package com.bootdo.rent.controller;
 
 import com.bootdo.common.annotation.Log;
 import com.bootdo.common.controller.BaseController;
 import com.bootdo.common.domain.DictDO;
+import com.bootdo.common.domain.FileDO;
 import com.bootdo.common.service.DictService;
-import com.bootdo.common.utils.MD5Utils;
-import com.bootdo.common.utils.PageUtils;
-import com.bootdo.common.utils.Query;
-import com.bootdo.common.utils.R;
-import com.bootdo.easyrent.common.RentConstant;
-import com.bootdo.easyrent.domain.RecommendDO;
-import com.bootdo.easyrent.service.RecommendService;
+import com.bootdo.common.service.FileService;
+import com.bootdo.common.utils.*;
+import com.bootdo.rent.common.RentConstant;
+import com.bootdo.rent.domain.RecommendDO;
+import com.bootdo.rent.service.RecommendService;
 import com.bootdo.system.domain.UserDO;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -36,12 +36,16 @@ public class RentController extends BaseController {
 	@Autowired
     private DictService dictService;
 
+	@Autowired
+	private FileService fileService;
+
 	@GetMapping()
 	String rentIndex(Model model) {
 		//加载推荐房源信息
 		List<RecommendDO> recommendList = recommendService.list(null);
 		model.addAttribute("recommendList",recommendList);
 		UserDO userDO = getUser();
+		model.addAttribute("loginUser",userDO);
 		return "rent/index";
 	}
 
@@ -72,6 +76,8 @@ public class RentController extends BaseController {
 
 	@GetMapping("/contact")
 	String rentContact(Model model) {
+		UserDO userDO = getUser();
+		model.addAttribute("easyRentLoginUser",userDO);
 		return "rent/contact";
 	}
 
@@ -99,14 +105,14 @@ public class RentController extends BaseController {
 	@Log("易租用户登录")
 	@PostMapping("/login")
 	@ResponseBody
-	R rentLogin(String username, String password,String rememberMe) {
+	R rentLogin(String username_login, String password_login,String rememberMe) {
 		//判断当前用户是否已经登录，是-提醒无需重复登录
 		UserDO currUser = getUser();
-		if(username.equals(currUser.getUsername())){
+		if(username_login.equals(currUser.getUsername())){
 			return R.error("当前用户已登录，无需重复登录");
 		}
-		password = MD5Utils.encrypt(username, password);
-		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+		password_login = MD5Utils.encrypt(username_login, password_login);
+		UsernamePasswordToken token = new UsernamePasswordToken(username_login, password_login);
 		if("on".equals(rememberMe)){
 			token.setRememberMe(true);
 		}
@@ -117,5 +123,32 @@ public class RentController extends BaseController {
 		} catch (AuthenticationException e) {
 			return R.error("用户或密码错误");
 		}
+	}
+	@Log("易租用户登出")
+	@GetMapping("/logout")
+	String logout() {
+		ShiroUtils.logout();
+		return "redirect:/rent";
+	}
+
+	@PostMapping("/initLoginUserInfo")
+	@ResponseBody
+	R initLoginUserInfo(Model model){
+		R r = new R();
+		r.put("code", 0);
+		r.put("msg", "操作成功");
+		r.put("easyRentLoginUser",getUser());
+		String easyRentLoginUserPicUrl = RentConstant.DEFAULT_AVATAR_URL;
+		if(getUser().getPicId() != null){
+			FileDO fileDO = fileService.get(getUser().getPicId());
+			if(fileDO != null&&StringUtils.isNotEmpty(fileDO.getUrl())){
+				easyRentLoginUserPicUrl = fileDO.getUrl();
+			}
+		}
+		r.put("easyRentLoginUserPicUrl",easyRentLoginUserPicUrl);
+		//加载易租信息
+		List<DictDO> easyRentCompanyInfo = dictService.listByType(RentConstant.EASY_RENT_COMPANY_INFO);
+		r.put("easyRentCompanyInfo",easyRentCompanyInfo);
+		return r;
 	}
 }

@@ -1,4 +1,4 @@
-package com.bootdo.easyrent.controller;
+package com.bootdo.rent.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bootdo.easyrent.domain.RentHousesDO;
-import com.bootdo.easyrent.service.RentHousesService;
+import com.bootdo.rent.domain.RentHousesDO;
+import com.bootdo.rent.service.RentHousesService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
