@@ -20,7 +20,7 @@
 
     /*加载select*/
     $("select").each(function (index,element) {
-          var selectType = element.name;
+          var selectType = element.getAttribute("data-select-type");
           var id = element.id;
           if(selectType != undefined&&selectType != ''){
               getSelectType(id,selectType,null);
@@ -124,9 +124,9 @@
                   html += '<option value="' + rows[i].value + '">' + rows[i].name + '</option>'
               }
               $("#"+elementId).append(html);
-              $("#"+elementId).chosen({
+              /*$("#"+elementId).chosen({
                   maxHeight : 200
-              });
+              });*/
           }
       });
   }

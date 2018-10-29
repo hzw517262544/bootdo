@@ -24,6 +24,7 @@ function save() {
         success : function(data) {
             if (data.code == 0) {
                 parent.layer.msg("提交成功");
+                $('#advise').val("");
             } else {
                 parent.layer.alert(data.msg);
             }
