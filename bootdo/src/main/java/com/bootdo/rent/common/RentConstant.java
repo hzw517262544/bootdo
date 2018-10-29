@@ -41,4 +41,12 @@ public class RentConstant {
      * 默认头像
      */
     public static final String DEFAULT_AVATAR_URL = "/images/noPic.jpg";
+    /**
+     * 易租网 id
+     */
+    public static final long EASY_RENT_DEPT_ID = 0;
+    /**
+     * 易租网
+     */
+    public static final String EASY_RENT_DEPT_NAME = "易租网";
 }

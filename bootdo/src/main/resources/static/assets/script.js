@@ -1,13 +1,25 @@
   $(document).ready(function() {
-   $("#owl-example").owlCarousel();
-  $('.listing-detail span').tooltip('hide');
-        $('.carousel').carousel({
+    $("#owl-example").owlCarousel();
+    $('.listing-detail span').tooltip('hide');
+    $('.carousel').carousel({
             interval: 3000
-        }); 
-        $('.carousel').carousel('cycle');
+    });
+    $('.carousel').carousel('cycle');
+      /**
+       * 顶部导航-点击样式
+       */
+    $('#top_navs').find('a').each(function (index,element) {
+      if (this.href == document.location.href || document.location.href.search(this.href) >= 0) {
+          $(this).parent().addClass('active'); // this.className = 'active';
+      }else{
+          if($(this).parent().hasClass("active")){
+              $(this).parent().removeClass('active');
+          }
+      }
+    });
 
-      /*加载select*/
-      $("select").each(function (index,element) {
+    /*加载select*/
+    $("select").each(function (index,element) {
           var selectType = element.name;
           var id = element.id;
           if(selectType != undefined&&selectType != ''){
@@ -15,14 +27,14 @@
           }
       });
         //手机号码验证
-      jQuery.validator.addMethod("isMobile", function(value, element) {
+    jQuery.validator.addMethod("isMobile", function(value, element) {
           var length = value.length;
           var mobile = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/;
           return this.optional(element) || (length == 11 && mobile.test(value));
       }, "请正确填写手机号码");
 
-      validateRule_login();
-      initLoginUserInfo();
+    validateRule_login();
+    initLoginUserInfo();
   });
 
   /*$.validator.setDefaults({

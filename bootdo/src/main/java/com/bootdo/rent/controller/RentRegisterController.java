@@ -30,6 +30,8 @@ public class RentRegisterController extends BaseController {
         user.setName(user.getUsername());
         user.setPassword(MD5Utils.encrypt(user.getUsername(), user.getPassword()));
         user.setStatus(RentConstant.USER_STATUS_NORMAL);
+        user.setDeptId(RentConstant.EASY_RENT_DEPT_ID);
+        user.setDeptName(RentConstant.EASY_RENT_DEPT_NAME);
         List<Long> roleIds = new ArrayList<Long>();
         roleIds.add(RentConstant.EASY_RENT_ROLE_ID);
         user.setRoleIds(roleIds);

@@ -40,6 +40,11 @@ public class RentController extends BaseController {
 	private FileService fileService;
 
 	@GetMapping()
+	String rent() {
+		return "redirect:/rent/index";
+	}
+
+	@GetMapping("/index")
 	String rentIndex(Model model) {
 		//加载推荐房源信息
 		List<RecommendDO> recommendList = recommendService.list(null);
@@ -128,7 +133,7 @@ public class RentController extends BaseController {
 	@GetMapping("/logout")
 	String logout() {
 		ShiroUtils.logout();
-		return "redirect:/rent";
+		return "redirect:/rent/index";
 	}
 
 	@PostMapping("/initLoginUserInfo")

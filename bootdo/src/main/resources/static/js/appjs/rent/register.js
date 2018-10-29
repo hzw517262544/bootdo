@@ -24,7 +24,7 @@ function save() {
                 $('#easyRentLoginForm #username_login').val($('#signupForm #username').val());
                 $('#easyRentLoginForm #password_login').val($('#signupForm #password').val());
                 easyRentLogin();
-                window.location.href='/rent';
+                window.location.href='/rent/index';
             } else {
                 parent.layer.alert(data.msg);
             }
