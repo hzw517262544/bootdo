@@ -5,12 +5,15 @@ $().ready(function() {
     });
 });
 
-$.validator.setDefaults({
+/*$.validator.setDefaults({
     submitHandler : function() {
         save();
     }
-});
+});*/
 function save() {
+    /*if(!$('#signupForm').valid()){
+        return false;
+    }*/
     $.ajax({
         cache : true,
         type : "POST",
@@ -24,7 +27,9 @@ function save() {
             if (data.code == 0) {
                 parent.layer.msg("注册成功");
                 //注册成功调用易租登录接口
-                easyRentLogin($("#username").val(),$("#password").val(),null);
+                $('#easyRentLoginForm #username_login').val($('#signupForm #username').val());
+                $('#easyRentLoginForm #password_login').val($('#signupForm #password').val());
+                easyRentLogin();
             } else {
                 parent.layer.alert(data.msg);
             }
@@ -59,12 +64,6 @@ function validateRule() {
                     }
                 }
             },
-            birth : {
-                required : false
-            },
-            sex : {
-                required : false
-            },
             mobile : {
                 required : true,
                 isMobile : true,
@@ -87,47 +86,6 @@ function validateRule() {
                     }
                 }
             },
-            email : {
-                required : false,
-                maxlength:100,
-                email : true,
-                remote: {
-                    url: "/rent/register/validateEmailExit",
-                    type: "post",
-                    dataType: "json",
-                    data: {
-                        pwd: function () {
-                            return $("#email").val();　　　　//这个是取要验证的密码
-                        }
-                    },
-                    dataFilter: function (data) {　　　　//判断控制器返回的内容
-                        if (data == "true") {
-                            return false;
-                        }
-                        else {
-                            return true;
-                        }
-                    }
-                }
-            },
-            province : {
-                required : false
-            },
-            city : {
-                required : false
-            },
-            district : {
-                required : false
-            },
-            liveAddress : {
-                required : false,
-                maxlength:200
-
-            },
-            hobby : {
-                required : false,
-                maxlength:200
-            },
             password : {
                 required : true,
                 rangelength:[6,20]
@@ -147,21 +105,6 @@ function validateRule() {
                 isMobile : icon + "请输入正确的手机号码",
                 remote : icon + "该手机号码已被注册"
             },
-            email : {
-                required : icon + "请输入邮箱",
-                email : icon + "请输入正确的邮箱格式",
-                maxlength : icon + "最多输入100个字符",
-                remote : icon + "该邮箱已被注册"
-
-            },
-            liveAddress : {
-                required : icon + "请输入地址",
-                rangelength:icon + "最多输入200个字符"
-            },
-            hobby : {
-                required : icon + "请输入爱好",
-                rangelength:icon + "最多输入200个字符"
-            },
             password : {
                 required : icon + "请输入密码",
                 rangelength:icon + "密码长度为6-20"
@@ -169,6 +112,9 @@ function validateRule() {
             confirmPassword : {
                 equalTo : icon + "与密码不一致"
             }
+        },
+        submitHandler : function() {
+            save();
         }
     })
 }
@@ -196,7 +142,6 @@ function upLoadFile() {
         dataType : "json",
         success: function(data) {//data是返回的hash,key之类的值，key是定义的文件名
             layer.msg("上传成功！");
-            debugger;
             $("#easyRentUserImg").attr("src", data.fileName);
             $("#easyRentUserImg").val(data.fileName);
             $("#picId").val(data.fileId);

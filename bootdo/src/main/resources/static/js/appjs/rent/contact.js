@@ -9,9 +9,9 @@ $().ready(function() {
 });*/
 
 function save() {
-    if(!$('#signupForm').valid()){
+    /*if(!$('#signupForm').valid()){
         return false;
-    }
+    }*/
     $.ajax({
         cache : true,
         type : "POST",
@@ -72,6 +72,9 @@ function validateRule() {
                 required : icon + "请输入建议",
                 maxlength:icon + "最多输入800个字符"
             }
+        },
+        submitHandler : function() {
+            save();
         }
     })
 }

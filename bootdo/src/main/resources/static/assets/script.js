@@ -27,7 +27,6 @@
 
   /*$.validator.setDefaults({
       submitHandler : function() {
-          debugger;
           easyRentLogin();
       }
   });*/
@@ -122,9 +121,9 @@
 
 
   function easyRentLogin() {
-      if(!$('#easyRentLoginForm').valid()){
+      /*if(!$('#easyRentLoginForm').valid()){
             return false;
-      }
+      }*/
       $.ajax({
           url : '/rent/login',
           type : "POST",
@@ -161,6 +160,9 @@
               password_login : {
                   required : icon + "请输入密码"
               }
+          },
+          submitHandler : function() {
+              easyRentLogin();
           }
       })
   }
